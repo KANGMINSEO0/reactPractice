@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        async function callAPI() {
+            axios.get('https://map.naver.com/p/api/search/instant-search?query=%ED%97%AC%EC%8A%A4%EC%9E%A5&coords=33.48308500000063,126.47717494606434')
+            .then(meta => console.log(meta));
+            // const promise = fetch('https://map.naver.com/p/api/search/instant-search?query=%ED%97%AC%EC%8A%A4%EC%9E%A5&coords=33.48308500000063,126.47717494606434');
+            // const text = await response;
+            // console.log(text);              // 문자열로 출력
+            // console.log(JSON.parse(promise));  // 객체 형태로 바꿔줌
+        }
+
+        function App() {
+            
+            const onClickHandler = () => {
+                callAPI();
+            }
+            
+            return <button onClick={onClickHandler}>API 요청</button>
+        }
+
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>
