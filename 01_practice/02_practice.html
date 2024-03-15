@@ -11,42 +11,66 @@
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState } = React;
-         class App extends React.Component {
 
-            constructor(props) {
-                super(props)
-                this.state = {
-                    checked : false
+        const { useState, useEffect } = React;
+
+        function Timer(startTime) {
+            console.log('Timer 함수형 컴포넌트...');
+            const endTime = new Date().getTime(); 
+            console.log(endTime);
+            console.log(`걸린시간 : ${endTime - startTime} ms`);
+            alert(`${endTime - startTime} ms`);
+            // const [endTime, setEndTime] = useState(new Date().toLocaleTimeString()); 
+            // console.log(endTime);
+        }
+
+        function App() {
+            console.log('렌더링...');
+            const [startTime, serStartTime] = useState(new Date().getTime()); 
+            console.log(startTime);
+            const [answer, setAnswer] = useState(prompt('문자열을 입력해주세요'));
+            console.log('문자열 입력 완료...')
+            const [text, setText] = useState('');
+            console.log(answer);
+
+            const handleOnClick= () => {
+                console.log('handleOnClick');
+                // navigate('/main');
+            };  // 버튼에 적용할 클릭 이벤트 함수
+
+            const handleOnKeyPress = e => {
+                if (e.key === 'Enter') {
+                    console.log('Enter key 입력...');
+                    // const endTime = new Date().getTime(); 
+                    // console.log(endTime);
+                    // console.log(`걸린시간 : ${endTime - startTime} ms`);
+                    Timer(startTime);
+                    // Timer();        // Enter 입력이 되면 클릭 이벤트 실행
+
                 }
-                this.handleClick = this.handleClick.bind(this)
+            };  // 인풋에적용할 Enter 키 입력 함수
+
+            const onChangeHandler = (e) => {
+                console.log('onChangeHandler...')
+                setText(e.target.value);
             }
 
-            render() {
-                const textStyle = {
-                    color : this.state.checked ? 'gray' : "black",
-                    textDecoration : this.state.checked ? 'line-through' : 'none'
-                }
-                return (
-                    <>
-                    <input type="checkbox" id="checkboxItem"
-                        onClick={this.handleClick}/>
-                    <label for ="checkboxItem">선택해주세요</label>
-                    <h2 style={textStyle}>Text</h2>
-                    </>
-                )
-            }
-            handleClick (event) {
-                this.setState ({
-                    checked : event.target.checked
-                })
-                
-            }
-         }
+            // useEffect(
+            //     [answer]
+            // );
+            return (
+                <>
+                    <h3>{console.log('렌더링 시 출력...')}{answer}</h3>
+                    <input type="text" name="text" onKeyPress={handleOnKeyPress}/>
+                   {/* <input type="text" name="text" onKeyPress={handleOnKeyPress} onChange={onChangeHandler}/> */}
 
-         ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+                </>
+            );
 
-        
+
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
     </script>
 </body>
 </html>
