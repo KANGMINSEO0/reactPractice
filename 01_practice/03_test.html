@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        const { useState } = React;
+
+        function callAPI({ input, address, setAddress }) {
+            
+            fetch("https://api.github.com/emojis")
+            .then(response => response.json())
+            .then(json => {
+                const string = json[input];
+                setAddress(string);
+            })
+            .catch(e => {
+                console.log(`e : ${e}`);
+            })
+            .finally(
+                console.log("finally")
+            )
+        }
+
+        function Input({ address, setAddress }) {
+
+            const [input, setInput] = useState('');
+
+            const inputHandler = e => setInput(e.target.value);
+
+            const clickHandler = e => {
+                const changedAddress = callAPI({ input, address, setAddress });
+                setInput('');
+            }
+
+            return (
+                <>
+                    <div>
+                        <input 
+                            type="text"
+                            value={input}
+                            placeholder="이모지 키워드를 입력하세요."
+                            onChange={inputHandler}
+                        />
+                        <button
+                            onClick={clickHandler}
+                        >
+                            검색
+                        </button>
+                    </div>
+                </>
+            );
+        }
+
+        function Print({ address }) {
+
+            const result = (address != '')? <img src={address}/>: <h1>텅~</h1>;
+            
+            return (
+                <>
+                    <div>
+                        {result}
+                    </div>
+                </>
+            );
+        }
+
+        function App() {
+
+            const [address, setAddress] = useState('');
+
+            return (
+                <>
+                    <div>
+                        {<Input address={ address } setAddress={ setAddress }/>}
+                        {<Print address={ address }/>}
+                    </div>
+                </>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+</body>
+</html>

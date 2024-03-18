@@ -58,20 +58,21 @@
         main {
             background: gray;
             margin: auto;
-            height: 20px;
+            /* height: 20px; */
             text-align: center;
-            height: 70%;
+            /* height: 100%; */
             flex: 1;
             padding-top: 150px;
-            padding-bottom: 150px;
+            padding-bottom: 500px;
         }
 
         article {
             margin: auto;
+            /* position: absolute; */
             text-align: left;
             background: white;
             width: 50%;
-            height: 100%;
+            height: 500px;
         }
 
         #inputToDo {
@@ -84,6 +85,16 @@
         #alertToDo {
             background: rgb(7, 148, 7);
             color: white;
+        }
+
+        #btn-del {
+            background: red;
+            color: white;
+            border-radius: 50%;
+        }
+
+        ul>li {
+            list-style: none;
         }
     </style>
 </head>
@@ -119,7 +130,10 @@
                 setToDos(changedToDos);
             }
 
-            const onCheckHandler = e => {setChecked(e.target.checked)}
+            const onClickCheck = id => {
+                setChecked(!checked);
+            }
+            // const onCheckHandler = e => {setChecked(e.target.checked)}
             // const onCheckHandler = e => {setToDos(e.target.done)}
             console.log(checked);
             const textStyle =  {
@@ -133,14 +147,14 @@
             
 
             const toDoList = toDos.map(toDo => 
-                                    <div >
-                                        <input type="checkbox" onClick={onCheckHandler}/> 
-                                        <span key={toDo.id} style={textStyle}>{toDo.name} </span>
-                                        <button onClick={
+                                    <li key={toDo.id}>
+                                        <input type="checkbox" onClick={onClickCheck}/> 
+                                        <label style={textStyle}>{toDo.name} </label>
+                                        <button id="btn-del" onClick={
                                             () => onRemove(toDo.id)}
                                             >x
                                         </button> 
-                                    </div>);
+                                    </li>);
 
 
             return (

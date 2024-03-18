@@ -16,16 +16,17 @@
         
 
         async function callAPI() {
-            const promise = fetch('https://api.github.com/emojis');
-            console.log(promise);
-            const response = await promise;
-            console.log(response);
-            // const json = await response.json();
-            // console.log(json);
-            
-            // fetch('https://api.github.com/emojis')
-            // .then(response => console.log(response));
 
+            fetch("https://api.github.com/emojis")
+            .then(response => response.json())
+            .then(json => {
+                const string = json[input];
+                setAddress(string);
+            });
+            // const promise = fetch('https://api.github.com/emojis');
+            // console.log(promise);
+            // const response = await promise;
+            // console.log(response);
         }
 
         // callAPI();
